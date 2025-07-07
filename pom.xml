@@ -116,8 +116,7 @@
 			    <groupId>org.owasp</groupId>
 			    <artifactId>dependency-check-maven</artifactId>
 			    <version>11.1.1</version>
-			    <configuration>
-				 <failOnError>false</failOnError>   
+			    <configuration> 
 			        <dataDirectory>${project.build.directory}/dependency-check-data</dataDirectory>
 			    </configuration>
 			    <executions>
