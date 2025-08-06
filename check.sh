@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STATUS_CODE=$(curl -s -o -L /dev/null -w "%{http_code}" http://localhost:8082)
+STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 -L)
 if [ ${STATUS_CODE} -eq "200" ]; then
   echo "The status of the smoke test is passed!"
   exit 0
