@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Dev-bioMedical-deploy
+  name: biomedical-deploy
 spec:
   selector:
     matchLabels:
-      app: Dev-bioMedical
-  replicas: 2 
+      app: geoapp
+  replicas: 2
   template:
     metadata:
       labels:
-        app: Dev-bioMedical
+        app: geoapp
     spec:
       containers:
-      - name: bioMedical
+      - name: biomedical-container
         image: 381492147345.dkr.ecr.us-east-1.amazonaws.com/biomedical/images:72
         ports:
         - containerPort: 8082
@@ -23,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: Dev-bioMedical-svc
+  name: biomedical-svc
 spec:
   type: NodePort
-  selector:	
-    app: Dev-bioMedical
+  selector:
+    app: geoapp
   ports:
     - protocol: TCP
       port: 80
