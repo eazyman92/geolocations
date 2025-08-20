@@ -142,7 +142,7 @@ pipeline {
                         git config --global user.email "${GITHUB_USER_EMAIL}"
                         git config --global user.name "${GITHUB_USERNAME}"
                         git add k8s-manifest.yaml
-                        git commit -m "k8s-manifest.yaml file is updated"
+                        git commit -m "k8s-manifest.yaml file is updated [ci skip]"
                         """
                         withCredentials([gitUsernamePassword(credentialsId: 'github-cred', gitToolName: 'Default')]) {
                             sh 'git push "${GIT_URL}" ${GIT_BRANCH}'
