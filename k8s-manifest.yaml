@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: biomedical-container
-        image: 381492147345.dkr.ecr.us-east-1.amazonaws.com/biomedical/images:6
+        image: 381492147345.dkr.ecr.us-east-1.amazonaws.com/biomedical/images:98
         ports:
         - containerPort: 8082
 
