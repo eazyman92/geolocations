@@ -24,6 +24,7 @@ pipeline {
         AWS_REGION              = 'us-east-1'
         GITHUB_USER_EMAIL       = 'tijaniisiaq92@gmail.com'
         GITHUB_USERNAME         = 'eazyman92'
+        MANIFEST_BRANCH         = 'manifest-files-branch'
     }
     
     stages {
@@ -142,10 +143,10 @@ pipeline {
                         git config --global user.email "${GITHUB_USER_EMAIL}"
                         git config --global user.name "${GITHUB_USERNAME}"
                         git add k8s-manifest.yaml
-                        git commit -m "k8s-manifest.yaml file is updated [ci skip]"
+                        git commit -m "k8s-manifest.yaml file is updated"
                         """
                         withCredentials([gitUsernamePassword(credentialsId: 'github-cred', gitToolName: 'Default')]) {
-                            sh 'git push "${GIT_URL}" ${GIT_BRANCH}'
+                            sh 'git push "${GIT_URL}" ${MANIFEST_BRANCH}'
                         }
                     }
                 }
