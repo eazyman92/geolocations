@@ -80,7 +80,7 @@ pipeline {
                  nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '54.234.177.96:8081',
+                    nexusUrl: '18.215.151.111:8081',
                     groupId: 'com.spring',
                     version:  '0.0.1-SNAPSHOT',
                     repository: 'maven-snapshots',
