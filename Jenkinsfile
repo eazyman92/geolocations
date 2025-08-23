@@ -132,9 +132,11 @@ pipeline {
                 steps{
                     script{
                         sh """
+                        git checkout ${GIT_BRANCH}
+                        git fetch origin
+                        git checkout -B ${MANIFEST_BRANCH}
                         git config --global user.email "${GITHUB_USER_EMAIL}"
                         git config --global user.name "${GITHUB_USERNAME}"
-                        git checkout - B ${MANIFEST_BRANCH}
                         sed -i "s|image: ${ECR_URL}/${IMAGE_NAME}:.*|image: ${ECR_URL}/${IMAGE_NAME}:${BUILD_NUMBER}|" k8s-manifest.yaml
                         git add k8s-manifest.yaml
                         git commit -m "k8s-manifest.yaml file is updated"
