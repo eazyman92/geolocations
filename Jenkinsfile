@@ -128,20 +128,14 @@ pipeline {
                     }
                 }
             }
-            stage('Update K8s Manifest'){
-                steps{
-                    script{
-                    sh 'cat k8s-manifest.yaml'    
-                    sh 'sed -i "s|image: ${ECR_URL}/${IMAGE_NAME}:.*|image: ${ECR_URL}/${IMAGE_NAME}:${BUILD_NUMBER}|" k8s-manifest.yaml'
-                    }
-                }
-            }
-            stage('Push Updated K8s-manifest,yaml to Git'){
+            stage('Update & Push K8s Manifest to VCS'){
                 steps{
                     script{
                         sh """
                         git config --global user.email "${GITHUB_USER_EMAIL}"
                         git config --global user.name "${GITHUB_USERNAME}"
+                        git checkout - B ${MANIFEST_BRANCH}
+                        sed -i "s|image: ${ECR_URL}/${IMAGE_NAME}:.*|image: ${ECR_URL}/${IMAGE_NAME}:${BUILD_NUMBER}|" k8s-manifest.yaml
                         git add k8s-manifest.yaml
                         git commit -m "k8s-manifest.yaml file is updated"
                         """
