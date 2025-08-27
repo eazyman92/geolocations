@@ -140,6 +140,7 @@ pipeline {
                         sed -i "s|image: ${ECR_URL}/${IMAGE_NAME}:.*|image: ${ECR_URL}/${IMAGE_NAME}:${BUILD_NUMBER}|" k8s-manifest.yaml
                         git add k8s-manifest.yaml
                         git commit -m "k8s-manifest.yaml file is updated"
+                        git pull
                         """
                         withCredentials([gitUsernamePassword(credentialsId: 'github-cred', gitToolName: 'Default')]) {
                             sh 'git push "${GIT_URL}" ${MANIFEST_BRANCH}'
