@@ -142,7 +142,7 @@ pipeline {
                         git commit -m "k8s-manifest.yaml file is updated"
                         """
                         withCredentials([gitUsernamePassword(credentialsId: 'github-cred', gitToolName: 'Default')]) {
-                            sh 'git pull "${GIT_URL} "${MANIFEST_BRANCH}"'
+                            sh 'git pull "${GIT_URL}" "${MANIFEST_BRANCH}"'
                             sh 'git push "${GIT_URL}" ${MANIFEST_BRANCH}'
                         }
                     }
