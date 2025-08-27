@@ -132,18 +132,27 @@ pipeline {
                 steps{
                     script{
                         sh """
-                        git checkout ${GIT_BRANCH}
-                        git fetch origin
-                        git checkout -B ${MANIFEST_BRANCH}
-                        git pull --rebase origin ${MANIFEST_BRANCH}
-                        git config --global user.email "${GITHUB_USER_EMAIL}"
-                        git config --global user.name "${GITHUB_USERNAME}"
-                        sed -i "s|image: ${ECR_URL}/${IMAGE_NAME}:.*|image: ${ECR_URL}/${IMAGE_NAME}:${BUILD_NUMBER}|" k8s-manifest.yaml
-                        git add .
-                        git commit -m "k8s-manifest.yaml file is updated"
-                        """
+                                # Ensure a clean working directory
+                                git reset --hard
+                                git clean -fd
+                    
+                                # Checkout and update branch
+                                git checkout ${GIT_BRANCH}
+                                git fetch origin
+                                git checkout -B ${MANIFEST_BRANCH} origin/${MANIFEST_BRANCH} || git checkout -B ${MANIFEST_BRANCH}
+                                git pull --rebase origin ${MANIFEST_BRANCH}
+                    
+                                # Git identity
+                                git config --global user.email "${GITHUB_USER_EMAIL}"
+                                git config --global user.name "${GITHUB_USERNAME}"
+                    
+                                # Update manifest
+                                sed -i "s|image: ${ECR_URL}/${IMAGE_NAME}:.*|image: ${ECR_URL}/${IMAGE_NAME}:${BUILD_NUMBER}|" k8s-manifest.yaml
+                                git add k8s-manifest.yaml
+                                git commit -m "k8s-manifest.yaml updated with build ${BUILD_NUMBER}" || echo "No changes to commit"
+                            """
                         withCredentials([gitUsernamePassword(credentialsId: 'github-cred', gitToolName: 'Default')]) {
-                            sh 'git push "${GIT_URL}" ${MANIFEST_BRANCH} --force'
+                                sh 'git push "${GIT_URL}" ${MANIFEST_BRANCH} --force'
                         }
                     }
                 }
